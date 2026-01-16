@@ -1,0 +1,12 @@
+/* Reuse main container styles or add specific track styles */
+.text-primary {
+    color: var(--primary-color) !important;
+}
+
+.card {
+    border: none;
+}
+
+.bg-light {
+    background-color: #f8f9fa !important;
+}
