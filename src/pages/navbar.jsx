@@ -10,7 +10,7 @@ function Navbar(props) {
         <>
             <nav className="glass-effect">
                 <div className="nav-container">
-                    <div className="logo" onClick={() => window.location.href = '/'}>SmartComplaint</div>
+                    <div className="logo" onClick={() => window.location.href = '/'}>Civico</div>
                     <div className="nav-links">
                         <Link to="/home">Home</Link>
                         <Link to="/register">Register Complaint</Link>
