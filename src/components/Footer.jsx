@@ -11,7 +11,7 @@ function Footer() {
                         <div className="col-xl-4 col-lg-4 mb-50">
                             <div className="footer-widget">
                                 <div className="footer-logo">
-                                    <h3 className="text-white fw-bold">SmartComplaint</h3>
+                                    <h3 className="text-white fw-bold">Civico-SmartComplaint</h3>
                                 </div>
                                 <div className="footer-text">
                                     <p>Empowering citizens with a seamless platform to voice their concerns and track resolutions in real-time. Together for a better community.</p>
