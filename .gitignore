@@ -1,6 +1,10 @@
+//gitignore
+
 node_modules
-dist 
-package-lock.json
+fire.js
+lottie.jsx
 .env
-package.json
-.gitignore
+.env.local
+.env.development
+.env.production
+aminations/*

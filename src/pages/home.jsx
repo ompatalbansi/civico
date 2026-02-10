@@ -1,10 +1,13 @@
 import { Link } from 'react-router-dom';
 import './home.css';
+import dotenv from 'dotenv';
+dotenv.config();
 import LottieAnimation from "../lottie";
 import home from "../aminations/Placement Assistance.json";
 
 
 function Home() {
+    console.log(process.env.PORT);
     return (
         <div className="container main-container">
             {/* Hero Section */}
