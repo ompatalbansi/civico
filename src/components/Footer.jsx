@@ -21,6 +21,7 @@ function Footer() {
                                     <a href="#"><i className="fab fa-facebook-f facebook-bg"></i></a>
                                     <a href="#"><i className="fab fa-twitter twitter-bg"></i></a>
                                     <a href="#"><i className="fab fa-google-plus-g google-bg"></i></a>
+                                    <p className="text-white mt-2">Email: {import.meta.env.VITE_EMAIL}</p>
                                 </div>
                             </div>
                         </div>

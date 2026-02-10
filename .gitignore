@@ -4,7 +4,4 @@
 fire.js
 lottie.jsx
 .env
-.env.local
-.env.development
-.env.production
-/aminations/*
+/aminations
