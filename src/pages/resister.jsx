@@ -127,7 +127,7 @@ function Resister(props) {
             </div>
 
             {/* Modal */}
-            <div className="modal fade" id="complaintModal" tabIndex="-1" aria-labelledby="complaintModalLabel" aria-hidden="true">
+            <div className="modal fade" id="complaintModal" tabIndex="-1" aria-labelledby="complaintModalLabel">
                 <div className="modal-dialog modal-lg">
                     <div className="modal-content">
                         <div className="modal-header">
