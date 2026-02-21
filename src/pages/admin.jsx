@@ -14,7 +14,7 @@ function Admin() {
     const fetchComplaints = async () => {
         setLoading(true);
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API}/api/v1/all`);
+            const res = await axios.get(`${import.meta.env.VITE_API}/${import.meta.env.VITE_API_KEY}/v1/all`);
             setComplaints(res.data.map(c => ({ id: c._id, ...c })));
         } catch (error) {
             console.error("Error fetching complaints:", error);
@@ -38,7 +38,7 @@ function Admin() {
 
     const handleStatusChange = async (id, newStatus) => {
         try {
-            await axios.patch(`${import.meta.env.VITE_API}/api/v1/${id}/status`, {
+            await axios.patch(`${import.meta.env.VITE_API}/${import.meta.env.VITE_API_KEY}/v1/${id}/status`, {
                 status: newStatus
             });
             addToast(`Status updated to ${newStatus}`, 'success');

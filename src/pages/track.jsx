@@ -14,7 +14,7 @@ function Track() {
         setComplaint(null);
 
         try {
-            const res = await axios.get(`${import.meta.env.VITE_API}/api/v1/${searchId}`);
+            const res = await axios.get(`${import.meta.env.VITE_API}/${import.meta.env.VITE_API_KEY}/v1/${searchId}`);
             setComplaint({ id: res.data._id, ...res.data });
         } catch (err) {
             console.error("Error fetching complaint:", err);
