@@ -28,13 +28,13 @@ function Resister(props) {
         };
 
         try {
-            const res = await axios.post(import.meta.env.VITE_API + '/api/v1/register', complaintData)
+            const res = await axios.post(import.meta.env.VITE_API+"/"+ import.meta.env.VITE_API_KEY +"/v1/register", complaintData)
             setSubmittedId(res.data._id);
             navigator.clipboard.writeText(res.data._id); // Auto-copy ID
             addToast("Complaint registered successfully!", "success");
             form.reset();
         } catch (error) {
-            console.error("Error adding document: ", error);
+            console.log("Error adding document: ", error);
             addToast("Error registering complaint. Please try again.", "error");
         } finally {
             setIsSubmitting(false);
