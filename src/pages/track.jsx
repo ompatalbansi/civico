@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import { doc, getDoc } from 'firebase/firestore';
-import { db } from '../fire';
-import './track.css'; // We'll create this or reuse styles
+import axios from 'axios';
 
 function Track() {
     const [searchId, setSearchId] = useState('');
@@ -16,17 +14,15 @@ function Track() {
         setComplaint(null);
 
         try {
-            const docRef = doc(db, 'complaints', searchId.trim());
-            const docSnap = await getDoc(docRef);
-
-            if (docSnap.exists()) {
-                setComplaint({ id: docSnap.id, ...docSnap.data() });
-            } else {
-                setError('Complaint not found. Please check the ID.');
-            }
+            const res = await axios.get(`${import.meta.env.VITE_API}/api/v1/${searchId}`);
+            setComplaint({ id: res.data._id, ...res.data });
         } catch (err) {
             console.error("Error fetching complaint:", err);
-            setError('Error fetching details. Please try again.');
+            if (err.response && err.response.status === 404) {
+                setError('Complaint not found. Please check the ID.');
+            } else {
+                setError('Error fetching details. Please try again.');
+            }
         } finally {
             setLoading(false);
         }
@@ -34,79 +30,113 @@ function Track() {
 
     const getStatusColor = (status) => {
         switch (status?.toLowerCase()) {
-            case 'pending': return 'bg-warning text-dark';
-            case 'resolved': return 'bg-success text-white';
-            case 'rejected': return 'bg-danger text-white';
-            default: return 'bg-secondary text-white';
+            case 'pending': return 'bg-yellow-100 text-yellow-700 border-yellow-200';
+            case 'in progress': return 'bg-blue-100 text-blue-700 border-blue-200';
+            case 'resolved': return 'bg-green-100 text-green-700 border-green-200';
+            default: return 'bg-gray-100 text-gray-700 border-gray-200';
         }
     };
 
     return (
-        <div className="container mt-5 main-container">
-            <div className="header-section text-center mb-5">
-                <h1><i className="fas fa-search"></i> Track Your Complaint</h1>
-                <p>Enter your Complaint ID to check the current status</p>
-            </div>
+        <div className="min-h-screen bg-gray-50 py-12 px-4">
+            <div className="max-w-3xl mx-auto">
+                <div className="bg-white rounded-3xl shadow-xl overflow-hidden mb-8 border border-gray-100">
+                    <div className="bg-white text-black p-8 text-center">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-white/20 rounded-2xl backdrop-blur-md mb-4">
+                            <i className="fas fa-search-location text-3xl"></i>
+                        </div>
+                        <h2 className="text-3xl font-bold mb-2">Track Your Complaint</h2>
+                        <p className="text-blue-500 opacity-90">Enter your complaint ID to check real-time status</p>
+                    </div>
 
-            <div className="row justify-content-center">
-                <div className="col-md-8">
-                    <div className="card shadow-sm p-4 mb-5" style={{ borderRadius: '15px' }}>
-                        <form onSubmit={handleSearch} className="d-flex gap-2">
-                            <input
-                                type="text"
-                                className="form-control form-control-lg"
-                                placeholder="Enter Complaint ID (e.g. 7Af...)"
-                                value={searchId}
-                                onChange={(e) => setSearchId(e.target.value)}
-                                required
-                            />
-                            <button type="submit" className="btn btn-primary btn-lg" disabled={loading} style={{ background: 'var(--primary-color)', minWidth: '120px' }}>
-                                {loading ? 'Searching...' : 'Track'}
+                    <div className="p-8">
+                        <form onSubmit={handleSearch} className="flex flex-col sm:flex-row gap-4 mb-2">
+                            <div className="flex-row">
+                                <div className="relative">
+                                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                        <i className="fas fa-hashtag text-slate-400"></i>
+                                    </div>
+                                    <input
+                                        type="text"
+                                        className="w-full pl-10 pr-4 py-4 rounded-2xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all text-lg font-mono tracking-wider"
+                                        placeholder="Enter Complaint ID..."
+                                        value={searchId}
+                                        onChange={(e) => setSearchId(e.target.value)}
+                                        required
+                                    />
+                                </div>
+                            </div>
+                            <button
+                                type="submit"
+                                className="bg-blue-600 text-white px-8 py-4 rounded-2xl font-bold shadow-lg hover:bg-blue-700 hover:-translate-y-0.5 transition-all flex items-center justify-center gap-2 min-w-[160px]"
+                                disabled={loading}
+                            >
+                                {loading ? <i className="fas fa-circle-notch animate-spin"></i> : <i className="fas fa-search"></i>}
+                                {loading ? 'Tracking...' : 'Track Status'}
                             </button>
                         </form>
                     </div>
-
-                    {error && <div className="alert alert-danger text-center">{error}</div>}
-
-                    {complaint && (
-                        <div className="card shadow border-0" style={{ borderRadius: '15px', overflow: 'hidden' }}>
-                            <div className="card-header bg-light p-3">
-                                <div className="d-flex justify-content-between align-items-center">
-                                    <h5 className="mb-0 text-muted">ID: {complaint.id}</h5>
-                                    <span className={`badge rounded-pill px-3 py-2 ${getStatusColor(complaint.status)}`}>
-                                        {complaint.status}
-                                    </span>
-                                </div>
-                            </div>
-                            <div className="card-body p-4">
-                                <h3 className="mb-3 text-primary">{complaint.subject}</h3>
-                                <p className="text-muted mb-4">{complaint.description}</p>
-
-                                <div className="row g-3">
-                                    <div className="col-md-6">
-                                        <div className="p-3 bg-light rounded">
-                                            <small className="text-uppercase text-muted fw-bold">Category</small>
-                                            <div className="mt-1 fs-5">{complaint.category}</div>
-                                        </div>
-                                    </div>
-                                    <div className="col-md-6">
-                                        <div className="p-3 bg-light rounded">
-                                            <small className="text-uppercase text-muted fw-bold">Date Submitted</small>
-                                            <div className="mt-1 fs-5">
-                                                {complaint.createdAt?.seconds ? new Date(complaint.createdAt.seconds * 1000).toLocaleDateString() : 'Just now'}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            {complaint.fullName && (
-                                <div className="card-footer bg-white p-3 text-end text-muted small">
-                                    Submitted by: {complaint.fullName}
-                                </div>
-                            )}
-                        </div>
-                    )}
                 </div>
+
+                {error && (
+                    <div className="bg-red-50 border-l-4 border-red-500 p-6 rounded-2xl mb-8 animate-shake">
+                        <div className="flex items-center gap-3 text-red-700">
+                            <i className="fas fa-exclamation-circle text-xl"></i>
+                            <p className="font-bold">{error}</p>
+                        </div>
+                    </div>
+                )}
+
+                {complaint && (
+                    <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100 animate-slide-up">
+                        <div className="p-8 border-b border-gray-100 bg-gray-50/50 flex justify-between items-center flex-wrap gap-4">
+                            <div>
+                                <p className="text-xs uppercase font-black text-slate-400 tracking-widest mb-1">Complaint Details</p>
+                                <h3 className="text-xl font-bold text-slate-800">{complaint.subject}</h3>
+                            </div>
+                            <span className={`px-5 py-2 rounded-full font-black text-xs uppercase border-2 tracking-widest ${getStatusColor(complaint.status)}`}>
+                                {complaint.status}
+                            </span>
+                        </div>
+
+                        <div className="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div className="space-y-6">
+                                <div>
+                                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest block mb-2">Description</label>
+                                    <p className="text-slate-600 leading-relaxed bg-slate-50 p-4 rounded-2xl border border-slate-100">{complaint.description}</p>
+                                </div>
+                                <div>
+                                    <label className="text-xs font-black text-slate-400 uppercase tracking-widest block mb-2">Location</label>
+                                    <p className="text-slate-600 flex items-start gap-2">
+                                        <i className="fas fa-map-marker-alt text-red-500 mt-1"></i>
+                                        {complaint.address}
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div className="space-y-6">
+                                <div className="grid grid-cols-2 gap-4">
+                                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Category</label>
+                                        <p className="font-bold text-slate-700 capitalize">{complaint.category}</p>
+                                    </div>
+                                    <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                        <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Priority</label>
+                                        <p className={`font-bold capitalize ${complaint.priority === 'urgent' ? 'text-red-500' : 'text-slate-700'}`}>
+                                            {complaint.priority}
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
+                                    <label className="text-[10px] font-black text-slate-400 uppercase tracking-widest block mb-1">Last Updated</label>
+                                    <p className="font-bold text-slate-700">
+                                        {complaint.updatedAt ? new Date(complaint.updatedAt).toLocaleString() : 'Just now'}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
