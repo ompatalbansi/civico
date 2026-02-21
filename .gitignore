@@ -1,7 +1,7 @@
 //gitignore
 
 /node_modules
-fire.js
+
 lottie.jsx
 .env
 /aminations
