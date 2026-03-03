@@ -63,7 +63,7 @@ function Footer() {
                                 <i className="fas fa-headset text-blue-500 mt-1"></i>
                                 <div>
                                     <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-1">Emergency Help</p>
-                                    <p className="text-sm font-bold text-slate-200">+1 (800) CIVIC-SAFE</p>
+                                    <p className="text-sm font-bold text-slate-200">+91 (800) CIVIC-SAFE</p>
                                 </div>
                             </div>
                         </div>
