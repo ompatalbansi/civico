@@ -12,7 +12,7 @@ function Navbar(props) {
                 <div
                     className="text-2xl font-extrabold text-[#667eea] cursor-pointer transition-colors duration-300 hover:text-[#764ba2]"
                     onClick={() => window.location.href = '/'} 
-                > <i class="fa-solid fa-city mr-2"></i>
+                > <i className="fa-solid fa-city mr-2"></i>
                     Civico
                 </div>
                 <div className="flex items-center gap-8">
@@ -37,7 +37,7 @@ function Navbar(props) {
                         Track Complaint
                         <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-[#667eea] transition-all duration-300 group-hover:w-full"></span>
                     </Link>
-                    {location.pathname=="/"?<></>:<Link
+                    {location.pathname=="/" ||location.pathname=="/login" ?<></>:<Link
                         to="/login"
                         className="bg-white text-black no-underline text-center px-6 py-2 rounded-full font-semibold transition-all duration-300 ease-in-out shadow-md hover:-translate-y-0.5 hover:text-[#f7f7f8] hover:bg-[#667eea] hover:shadow-xl"
                     >

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
+import axios from 'axios';
 
 function Login() {
     const [email, setEmail] = useState('');
@@ -14,11 +15,14 @@ function Login() {
         setLoading(true);
 
         try {
-            // Simulated login logic
-            addToast('Login Successful!', 'success');
-            navigate('/admin'); // Redirect to Admin dashboard on success
+            const res = await axios.post(import.meta.env.VITE_API+"/"+ import.meta.env.VITE_API_KEY +"/v1/loginadmin",{userName:email, password: password})
+            if(res.status == 200){
+                addToast('Login Successful!', 'success');
+            navigate('/admin'); 
+              return; 
+             }
         } catch (error) {
-            console.error("Login Error:", error);
+            // console.log("Login Error:", error);
             let errorMessage = "Failed to login. Please check your credentials.";
             addToast(errorMessage, 'error');
         } finally {
@@ -27,7 +31,7 @@ function Login() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-200 flex items-center justify-center p-6 bg-fixed">
+        <div className="min-h-screen flex items-center justify-center p-6 bg-fixed">
             <div className="w-full max-w-md relative group">
                 {/* Decorative Blobs */}
                 <div className="absolute -top-12 -left-12 w-24 h-24 bg-blue-600/10 blur-3xl rounded-full group-hover:scale-150 transition-transform duration-1000"></div>
@@ -35,10 +39,10 @@ function Login() {
 
                 <div className="bg-white/80 backdrop-blur-xl border border-white/20 p-8 sm:p-12 rounded-[40px] shadow-2xl relative overflow-hidden">
                     {/* Top Accent Bar */}
-                    <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-600 to-cyan-400"></div>
+                    <div className="absolute top-0 left-0 w-full h-1.5 bg-white"></div>
 
                     <div className="text-center mb-10">
-                        <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-700 rounded-3xl shadow-xl shadow-blue-200 text-white text-3xl mb-6 transform hover:rotate-12 transition-transform duration-500">
+                        <div className="inline-flex items-center justify-center w-20 h-20  bg-blue-700 rounded-3xl shadow-xl shadow-blue-200 text-white text-3xl mb-6 transform hover:rotate-12 transition-transform duration-500">
                             <i className="fas fa-shield-alt"></i>
                         </div>
                         <h2 className="text-3xl font-black text-slate-800 tracking-tight">Admin Portal</h2>
