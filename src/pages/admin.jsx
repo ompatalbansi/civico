@@ -25,7 +25,9 @@ function Admin() {
     };
 
     useEffect(() => {
-        fetchComplaints();
+        setTimeout(() => {
+            fetchComplaints();
+        }, 500);
     }, []);
 
     useEffect(() => {
@@ -40,6 +42,8 @@ function Admin() {
         try {
             await axios.patch(`${import.meta.env.VITE_API}/${import.meta.env.VITE_API_KEY}/v1/${id}/status`, {
                 status: newStatus
+            }, {
+                withCredentials: true
             });
             addToast(`Status updated to ${newStatus}`, 'success');
             fetchComplaints(); // Refresh data

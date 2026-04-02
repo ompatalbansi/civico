@@ -15,7 +15,7 @@ function Login() {
         setLoading(true);
 
         try {
-            const res = await axios.post(import.meta.env.VITE_API+"/"+ import.meta.env.VITE_API_KEY +"/v1/loginadmin",{userName:email, password: password})
+            const res = await axios.post(import.meta.env.VITE_API+"/"+ import.meta.env.VITE_API_KEY +"/v1/loginadmin",{userName:email, password: password}, {withCredentials: true})
             if(res.status == 200){
                 addToast('Login Successful!', 'success');
             navigate('/admin'); 

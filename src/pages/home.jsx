@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import LottieAnimation from "../lottie";
 import home from "../aminations/Placement Assistance.json";
+import { useCookies } from "react-cookie";
 
 function Home() {
-
+    // const { cookies } = useCookies();
+    // console.log(cookies.accessToken);
     return (
         <div className="container mx-auto px-4 max-w-[1200px] animate-fade-in-up">
             {/* Hero Section */}

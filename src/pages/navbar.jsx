@@ -1,6 +1,7 @@
 import {useEffect} from 'react';
 import { Link,useLocation } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
+// import { Cookies } from 'react-cookie';
 
 function Navbar(props) {
     const { addToast } = useToast();
