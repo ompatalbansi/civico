@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState ,useEffect} from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useToast } from '../context/ToastContext';
 import axios from 'axios';
@@ -9,6 +9,31 @@ function Login() {
     const [loading, setLoading] = useState(false);
     const navigate = useNavigate();
     const { addToast } = useToast();
+
+    useEffect(() => {
+    const checkAuth = async () => {
+        try {
+            await axios.get(
+                import.meta.env.VITE_API + "/" + 
+                import.meta.env.VITE_API_KEY + "/v1/login/auth",
+                { withCredentials: true }
+            ).then((res)=>{
+                if (res.status === 200) {
+                    navigate('/admin');
+                }
+            }).catch((error)=>{
+                console.log("Auth error:", error);
+            })
+
+            
+
+        } catch (error) {
+            console.log("Auth error:", error);
+        }
+    };
+
+    checkAuth();
+}, []);
 
     const handleLogin = async (e) => {
         e.preventDefault();
