@@ -24,8 +24,27 @@ function Admin() {
         }
     };
 
+    const deleteComplaints = async (id) => {
+        setLoading(true);
+        try {
+            await axios.delete(`${import.meta.env.VITE_API}/${import.meta.env.VITE_API_KEY}/v1/${id}`, 
+             {
+                withCredentials: true
+            });
+            addToast(`Complaint Deleted SuccessFully!!`, 'success');
+            fetchComplaints();
+        } catch (error) {
+            console.error("Error deleting complaints:", error);
+            addToast("Failed Delete complaints", 'error');
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
-        fetchComplaints();
+        setTimeout(() => {
+            fetchComplaints();
+        }, 500);
     }, []);
 
     useEffect(() => {
@@ -40,6 +59,8 @@ function Admin() {
         try {
             await axios.patch(`${import.meta.env.VITE_API}/${import.meta.env.VITE_API_KEY}/v1/${id}/status`, {
                 status: newStatus
+            }, {
+                withCredentials: true
             });
             addToast(`Status updated to ${newStatus}`, 'success');
             fetchComplaints(); // Refresh data
@@ -68,6 +89,7 @@ function Admin() {
             default: return 'bg-slate-50 text-slate-600 border-slate-200';
         }
     }
+
 
     // Calculation for Stats
     const totalComplaints = complaints.length;
@@ -150,7 +172,8 @@ function Admin() {
                                     <th className="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-[0.15em] border-b border-slate-50">Category</th>
                                     <th className="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-[0.15em] border-b border-slate-50">Priority</th>
                                     <th className="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-[0.15em] border-b border-slate-50">Status</th>
-                                    <th className="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-[0.15em] border-b border-slate-50">Action</th>
+                                    <th className="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-[0.15em] border-b border-slate-50">Action</th>     
+                                    <th className="px-6 py-4 text-[11px] font-black text-slate-400 uppercase tracking-[0.15em] border-b border-slate-50">Delete</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-slate-50">
@@ -218,6 +241,11 @@ function Admin() {
                                                     <option value="Resolved">Resolved</option>
                                                     <option value="Rejected">Rejected</option>
                                                 </select>
+                                            </td>
+                                            <td className="px-6 py-4" >
+                                                <button className={`px-4 py-1.5 rounded-full text-[10px] opacity-${complaint.status != "Resolved" && complaint.status != "Rejected" ? "20" : "100"} font-black uppercase tracking-widest border-2 ${getStatusBadgeStyles(complaint.status)}` } onClick={complaint.status == "Resolved" || complaint.status == "Rejected" ? (e) => deleteComplaints(complaint.id) : (e) =>{} }>
+                                                    <i className="fa-solid fa-delete-left"></i>
+                                                </button>
                                             </td>
                                         </tr>
                                     ))

@@ -1,9 +1,11 @@
 import { Link } from 'react-router-dom';
 import LottieAnimation from "../lottie";
 import home from "../aminations/Placement Assistance.json";
+import { useCookies } from "react-cookie";
 
 function Home() {
-
+    // const { cookies } = useCookies();
+    // console.log(cookies.accessToken);
     return (
         <div className="container mx-auto px-4 max-w-[1200px] animate-fade-in-up">
             {/* Hero Section */}
@@ -13,7 +15,7 @@ function Home() {
                         <i className="fas fa-check-circle mr-1"></i> #1 Complaint Management System
                     </span>
                     <h1 className="text-5xl lg:text-6xl font-extrabold mb-4 leading-tight text-slate-900 tracking-tight">
-                        Transforming Civic Issues into <span className="bg-gradient-to from-[#393c9f] to-blue-600 bg-clip-text text-transparent">Smart Solutions</span>
+                        Transforming Civic Issues into <span className="bg-clip-text text-blue-600">Smart Solutions</span>
                     </h1>
                     <p className="text-xl text-gray-500 mb-8 leading-relaxed max-w-xl">
                         Empower your community by reporting issues instantly. Track progress in real-time and ensure a better living environment for everyone.

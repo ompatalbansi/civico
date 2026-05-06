@@ -21,7 +21,7 @@ function Footer() {
                         </p>
                         <div className="flex gap-4">
                             {['facebook-f', 'twitter', 'instagram', 'linkedin-in'].map((icon) => (
-                                <a key={icon} href="#" className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300">
+                                <a key={icon} href="https://in.linkedin.com/in/om-patalbansi-0b6879350" className="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-blue-600 hover:text-white transition-all duration-300">
                                     <i className={`fab fa-${icon} text-sm`}></i>
                                 </a>
                             ))}
@@ -63,7 +63,7 @@ function Footer() {
                                 <i className="fas fa-headset text-blue-500 mt-1"></i>
                                 <div>
                                     <p className="text-xs font-black text-slate-500 uppercase tracking-widest mb-1">Emergency Help</p>
-                                    <p className="text-sm font-bold text-slate-200">+1 (800) CIVIC-SAFE</p>
+                                    <p className="text-sm font-bold text-slate-200">+91 (800) CIVIC-SAFE</p>
                                 </div>
                             </div>
                         </div>
@@ -92,8 +92,8 @@ function Footer() {
                         &copy; 2024 Civico Smart Infrastructure. All Rights Reserved.
                     </p>
                     <div className="flex gap-8">
-                        {['Privacy Policy', 'Terms of Service', 'Cookie Settings'].map((item) => (
-                            <a key={item} href="#" className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] hover:text-white transition-colors">
+                        {['Privacy Policy', 'Terms of Service', 'om patalbansi(developer)'].map((item) => (
+                            <a key={item} href="https://in.linkedin.com/in/om-patalbansi-0b6879350" className="text-[10px] font-black text-slate-500 uppercase tracking-[0.2em] hover:text-white transition-colors">
                                 {item}
                             </a>
                         ))}
