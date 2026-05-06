@@ -18,7 +18,7 @@ function App() {
     <ToastProvider>
       <Navbar />
       <Routes>
-        <Route path="/" element={<Login />} />
+        <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
         <Route path="/register" element={<Resister />} />
         <Route path="/login" element={<Login />} />
